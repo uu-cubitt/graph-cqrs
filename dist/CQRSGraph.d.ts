@@ -3,8 +3,10 @@ import * as Commands from "cubitt-commands";
 import * as Events from "cubitt-events";
 export declare class CQRSGraph {
     private graph;
+    private version;
     private rollbackGraph;
-    constructor(graph?: GraphInterface);
+    private rollbackVersion;
+    constructor(graph?: GraphInterface, version?: number);
     beginTransaction(): void;
     ApplyCommand(command: Commands.Command): void;
     ApplyEvent(event: Events.Event): void;

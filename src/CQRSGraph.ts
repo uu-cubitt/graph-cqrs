@@ -11,22 +11,36 @@ export class CQRSGraph {
     private graph : GraphInterface;
 
     /**
+     * Version number
+     */
+    private version : number;
+
+    /**
      * Serialized Cubitt-Graph used for transaction support
      *
      */
     private rollbackGraph : Object;
 
     /**
+     * Version number used for rollback
+     *
+     *
+     */
+     private rollbackVersion : number;
+
+    /**
      * Create a new CQRS Graph
      *
      * @param graph Pass an existing graph
+     * @param version Version number of the graph, default 0
      */
-    constructor(graph ?: GraphInterface) {
+    constructor(graph ?: GraphInterface, version = 0) {
         if (graph == null) {
             this.graph = new Project();
         } else {
             this.graph = graph;
         }
+        this.version = version;
     }
 
     /**
@@ -36,6 +50,7 @@ export class CQRSGraph {
     public beginTransaction() {
         //Create a deep copy
         this.rollbackGraph = this.graph.serialize();
+        this.rollbackVersion = this.version;
     }
 
     /**
@@ -99,6 +114,7 @@ export class CQRSGraph {
                 default:
                     throw new Error("Invalid state");
             }
+            this.version++;
         } catch(Error)
         {
             if (this.rollbackGraph != null) {
@@ -170,6 +186,7 @@ export class CQRSGraph {
                 default:
                     throw new Error("Unknown EventType");
             }
+            this.version++;
         } catch(Error)
         {
             if (this.rollbackGraph != null) {
@@ -189,6 +206,8 @@ export class CQRSGraph {
         var tmpgraph = new Project();
         this.graph = tmpgraph.deserialize(tmpgraph);
         this.rollbackGraph = null;
+        this.version = this.rollbackVersion;
+        this.rollbackVersion = null;
     }
 
     /**
@@ -196,6 +215,7 @@ export class CQRSGraph {
      */
      public Commit() {
          this.rollbackGraph = null;
+         this.rollbackVersion = null;
      }
 
 

@@ -3,16 +3,19 @@ var cubitt_graph_1 = require("cubitt-graph");
 var Commands = require("cubitt-commands");
 var Events = require("cubitt-events");
 var CQRSGraph = (function () {
-    function CQRSGraph(graph) {
+    function CQRSGraph(graph, version) {
+        if (version === void 0) { version = 0; }
         if (graph == null) {
             this.graph = new cubitt_graph_1.Project();
         }
         else {
             this.graph = graph;
         }
+        this.version = version;
     }
     CQRSGraph.prototype.beginTransaction = function () {
         this.rollbackGraph = this.graph.serialize();
+        this.rollbackVersion = this.version;
     };
     CQRSGraph.prototype.ApplyCommand = function (command) {
         try {
@@ -68,6 +71,7 @@ var CQRSGraph = (function () {
                 default:
                     throw new Error("Invalid state");
             }
+            this.version++;
         }
         catch (Error) {
             if (this.rollbackGraph != null) {
@@ -130,6 +134,7 @@ var CQRSGraph = (function () {
                 default:
                     throw new Error("Unknown EventType");
             }
+            this.version++;
         }
         catch (Error) {
             if (this.rollbackGraph != null) {
@@ -145,9 +150,12 @@ var CQRSGraph = (function () {
         var tmpgraph = new cubitt_graph_1.Project();
         this.graph = tmpgraph.deserialize(tmpgraph);
         this.rollbackGraph = null;
+        this.version = this.rollbackVersion;
+        this.rollbackVersion = null;
     };
     CQRSGraph.prototype.Commit = function () {
         this.rollbackGraph = null;
+        this.rollbackVersion = null;
     };
     CQRSGraph.prototype.GetGraph = function () {
         return this.graph.deserialize(this.graph.serialize());
