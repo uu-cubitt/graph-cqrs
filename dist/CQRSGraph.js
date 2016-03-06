@@ -160,6 +160,9 @@ var CQRSGraph = (function () {
     CQRSGraph.prototype.GetGraph = function () {
         return this.graph.deserialize(this.graph.serialize());
     };
+    CQRSGraph.prototype.GetVersion = function () {
+        return this.version;
+    };
     CQRSGraph.prototype.AddConnector = function (action) {
         if (this.graph.hasElement(action.elementId)) {
             throw new Error("ElementId is already in use");

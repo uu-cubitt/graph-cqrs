@@ -222,8 +222,15 @@ export class CQRSGraph {
      /**
       * Returns a read-only copy of the Graph
       */
-     public GetGraph() {
+     public GetGraph() : GraphInterface {
          return this.graph.deserialize(this.graph.serialize());
+     }
+
+     /**
+      * Returns the version of the Graph
+      */
+     public GetVersion() : number {
+         return this.version;
      }
 
     /**
