@@ -198,6 +198,14 @@ export class CQRSGraph {
          this.rollbackGraph = null;
      }
 
+
+     /**
+      * Returns a read-only copy of the Graph
+      */
+     public GetGraph() {
+         return this.graph.deserialize(this.graph.serialize());
+     }
+
     /**
      * Adds an connector
      *

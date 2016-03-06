@@ -10,6 +10,7 @@ export declare class CQRSGraph {
     ApplyEvent(event: Events.Event): void;
     Rollback(): void;
     Commit(): void;
+    GetGraph(): GraphInterface;
     protected AddConnector(action: Commands.AddConnectorCommand | Events.ConnectorAddedEvent): void;
     protected AddEdge(action: Commands.AddEdgeCommand | Events.EdgeAddedEvent): void;
     protected AddModel(action: Commands.AddModelCommand | Events.ModelAddedEvent): void;
