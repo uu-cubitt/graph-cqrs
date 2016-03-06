@@ -25,7 +25,7 @@ $ npm install cubitt-graph-cqrs
 The ```CQRSGraph``` class is the main entrypoint for consumers of this package. It is as simple as:
 
 ```javascript
-var graph = new Project();
+var CQRSGraph = new CQRSGraph();
 ```
 All available methods on this class are described in the [Code documentation](https://uu-cubitt.github.io/graph-cqrs/).
 
