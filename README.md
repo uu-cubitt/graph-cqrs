@@ -50,3 +50,12 @@ The original authors of Cubitt are Sander Klock and Thomas Ipskamp. The project 
 ## License
 
 [MIT](LICENSE)
+
+## Changelog
+
+### 0.6.1
+- Added GetGraph method to retrieve the graph
+
+### 0.6.2
+- Fixed bug with transaction rollback
+- Introduced Changelog

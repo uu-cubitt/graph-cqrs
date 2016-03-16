@@ -203,8 +203,7 @@ export class CQRSGraph {
         if (this.rollbackGraph == null) {
             throw new Error("No transaction has been started");
         }
-        var tmpgraph = new Project();
-        this.graph = tmpgraph.deserialize(tmpgraph);
+        this.graph = this.graph.deserialize(this.rollbackGraph);
         this.rollbackGraph = null;
         this.version = this.rollbackVersion;
         this.rollbackVersion = null;
