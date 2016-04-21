@@ -1,5 +1,5 @@
 
-import {Project, GraphInterface} from "cubitt-graph";
+import * as Graph from "cubitt-graph";
 import * as Commands from "cubitt-commands";
 import * as Events from "cubitt-events";
 
@@ -7,7 +7,7 @@ export class CQRSGraph {
 	/**
 	* Cubitt-Graph
 	*/
-	private graph: GraphInterface;
+	private graph: Graph.GraphInterface;
 
 	/**
 	 * Version number
@@ -33,9 +33,9 @@ export class CQRSGraph {
 	 * @param graph Pass an existing graph
 	 * @param version Version number of the graph, default 0
 	 */
-	constructor(graph ?: GraphInterface, version: number = 0) {
+	constructor(graph ?: Graph.GraphInterface, version: number = 0) {
 		if (graph === null) {
-			this.graph = new Project();
+			this.graph = new Graph.Project();
 		} else {
 			this.graph = graph;
 		}
@@ -212,7 +212,7 @@ export class CQRSGraph {
 	/**
 	 * Returns a read-only copy of the Graph
 	*/
-	public GetGraph(): GraphInterface {
+	public GetGraph(): Graph.GraphInterface {
 		return this.graph.deserialize(this.graph.serialize());
 	}
 
