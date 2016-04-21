@@ -31,25 +31,65 @@ export class CQRSGraph {
 	 * Create a new CQRS Graph
 	 *
 	 * @param graph Pass an existing graph
-	 * @param version Version number of the graph, default 0
+	 * @param version Version number of the graph, default to 0 if no graph is passed
 	 */
-	constructor(graph ?: Graph.GraphInterface, version: number = 0) {
-		if (graph === null) {
+	constructor(graph ?: Graph.GraphInterface, version?: number) {
+		if (typeof(graph) === "undefined" || graph === null) {
 			this.graph = new Graph.Project();
+			this.version = 0;
 		} else {
 			this.graph = graph;
+			this.version = version;
 		}
-		this.version = version;
+	}
+
+	/**
+	 * Returns a read-only copy of the Graph
+	*/
+	public GetGraph(): Graph.GraphInterface {
+		return this.graph.deserialize(this.graph.serialize());
+	}
+
+	/**
+	 * Returns the version of the Graph
+	*/
+	public GetVersion(): number {
+		return this.version;
 	}
 
 	/**
 	 * Starts a transaction
-	 *
 	 */
-	public beginTransaction(): void {
-		// Create a deep copy
+	public BeginTransaction(): void {
+		if (this.rollbackGraph !== null) {
+			throw new Error("CQRS ERROR: Transaction already in progress.");
+		}
 		this.rollbackGraph = this.graph.serialize();
 		this.rollbackVersion = this.version;
+	}
+
+	/**
+	 * Commits a transaction
+	 */
+	public CommitTransaction(): void {
+		if (this.rollbackGraph === null) {
+			throw new Error("CQRS ERROR: No transaction in progress.");
+		}
+		this.rollbackGraph = null;
+		this.rollbackVersion = null;
+	}
+
+	/**
+	 * Rolls back a transaction
+	 */
+	public Rollback(): void {
+		if (this.rollbackGraph === null) {
+			throw new Error("CQRS ERROR: No transaction in progress.");
+		}
+		this.graph = this.graph.deserialize(this.rollbackGraph);
+		this.rollbackGraph = null;
+		this.version = this.rollbackVersion;
+		this.rollbackVersion = null;
 	}
 
 	/**
@@ -186,41 +226,6 @@ export class CQRSGraph {
 		}
 			throw error;
 		}
-	}
-
-	/**
-	 * Rolls back a transaction
-	 */
-	public Rollback(): void {
-		if (this.rollbackGraph === null) {
-			throw new Error("No transaction has been started");
-		}
-		this.graph = this.graph.deserialize(this.rollbackGraph);
-		this.rollbackGraph = null;
-		this.version = this.rollbackVersion;
-		this.rollbackVersion = null;
-	}
-
-	/**
-	 * Commits a transaction
-	 */
-	public Commit(): void {
-		this.rollbackGraph = null;
-		this.rollbackVersion = null;
-	}
-
-	/**
-	 * Returns a read-only copy of the Graph
-	*/
-	public GetGraph(): Graph.GraphInterface {
-		return this.graph.deserialize(this.graph.serialize());
-	}
-
-	/**
-	 * Returns the version of the Graph
-	*/
-	public GetVersion(): number {
-		return this.version;
 	}
 
 	/**
