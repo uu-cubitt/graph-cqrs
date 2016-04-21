@@ -234,12 +234,6 @@ export class CQRSGraph {
 	 * @param command AddConnectorCommand
 	 */
 	protected AddConnector(action: Commands.AddConnectorCommand | Events.ConnectorAddedEvent): void {
-		if (this.graph.hasElement(action.elementId)) {
-			throw new Error("ElementId is already in use");
-		}
-		if (this.graph.hasNode(action.nodeId) === false) {
-			throw new Error("No node with " + action.nodeId + " exists");
-		}
 		this.graph.addConnector(
 			action.elementId,
 			action.elementType,
@@ -253,18 +247,6 @@ export class CQRSGraph {
 	 * @param action AddEdgeCommand or EdgeAddedEvent
 	 */
 	protected AddEdge(action: Commands.AddEdgeCommand | Events.EdgeAddedEvent): void {
-		if (this.graph.hasElement(action.elementId)) {
-			throw new Error("ElementId is already in use");
-		}
-		if (this.graph.hasConnector(action.startConnectorId) === false) {
-			throw new Error("No connector with id " + action.startConnectorId + " exist");
-		}
-		if (this.graph.hasConnector(action.endConnectorId) === false) {
-			throw new Error("No connector with id " + action.endConnectorId + " exist");
-		}
-		if (this.graph.hasModel(action.modelId) === false) {
-			throw new Error("No model with id " + action.modelId + " exist");
-		}
 		this.graph.addEdge(
 			action.elementId,
 			action.elementType,
@@ -280,9 +262,6 @@ export class CQRSGraph {
 	 * @param command AddModelCommand
 	 */
 	protected AddModel(action: Commands.AddModelCommand | Events.ModelAddedEvent): void {
-		if (this.graph.hasElement(action.elementId)) {
-			throw new Error("ElementId is already in use");
-		}
 		this.graph.addModel(
 			action.elementId,
 			action.elementType,
@@ -295,12 +274,6 @@ export class CQRSGraph {
 	 * @param command AddNodeCommand
 	 */
 	protected AddNode(action: Commands.AddNodeCommand | Events.NodeAddedEvent): void {
-		if (this.graph.hasElement(action.elementId)) {
-			throw new Error("ElementId is already in use");
-		}
-		if (this.graph.hasModel(action.modelId) === false) {
-			throw new Error("No model with Id" + action.modelId + " exists");
-		}
 		this.graph.addNode(
 			action.elementId,
 			action.elementType,
@@ -314,9 +287,6 @@ export class CQRSGraph {
 	 * @param command DeleteConnectorCommand
 	 */
 	protected DeleteConnector(action: Commands.DeleteConnectorCommand | Events.ConnectorDeletedEvent): void {
-		if (this.graph.hasConnector(action.elementId) === false) {
-			throw new Error("No Connector with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteConnector(action.elementId);
 	}
 
@@ -326,9 +296,6 @@ export class CQRSGraph {
 	 * @param command DeleteEdgeCommand
 	 */
 	protected DeleteEdge(action: Commands.DeleteEdgeCommand | Events.EdgeDeletedEvent): void {
-		if (this.graph.hasEdge(action.elementId) === false) {
-			throw new Error("No Edge with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteEdge(action.elementId);
 	}
 
@@ -338,9 +305,6 @@ export class CQRSGraph {
 	 * @param command DeleteModelCommand
 	 */
 	protected DeleteModel(action: Commands.DeleteModelCommand | Events.ModelDeletedEvent): void {
-		if (this.graph.hasModel(action.elementId) === false) {
-			throw new Error("No Model with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteModel(action.elementId);
 	}
 
@@ -350,9 +314,6 @@ export class CQRSGraph {
 	 * @param command DeleteNodeCommand
 	 */
 	protected DeleteNode(action: Commands.DeleteNodeCommand | Events.NodeDeletedEvent): void {
-		if (this.graph.hasNode(action.elementId) === false) {
-			throw new Error("No Node with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteNode(action.elementId);
 	}
 
@@ -362,9 +323,6 @@ export class CQRSGraph {
 	 * @param command DeleteConnectorPropertyCommand
 	 */
 	protected DeleteConnectorProperty(action: Commands.DeleteConnectorPropertyCommand | Events.ConnectorPropertyDeletedEvent): void {
-		if (this.graph.hasConnector(action.elementId) === false) {
-			throw new Error("No Connector with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteProperty(action.elementId, action.propertyName);
 	}
 
@@ -374,9 +332,6 @@ export class CQRSGraph {
 	 * @param command DeleteModelCommand
 	 */
 	protected DeleteEdgeProperty(action: Commands.DeleteEdgePropertyCommand | Events.EdgePropertyDeletedEvent): void {
-		if (this.graph.hasEdge(action.elementId) === false) {
-			throw new Error("No Edge with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteProperty(action.elementId, action.propertyName);
 	}
 
@@ -386,9 +341,6 @@ export class CQRSGraph {
 	 * @param command DeleteModelCommand
 	 */
 	protected DeleteModelProperty(action: Commands.DeleteModelPropertyCommand | Events.ModelPropertyDeletedEvent): void {
-		if (this.graph.hasModel(action.elementId) === false) {
-			throw new Error("No Model with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteProperty(action.elementId, action.propertyName);
 	}
 
@@ -398,9 +350,6 @@ export class CQRSGraph {
 	 * @param command DeleteNodeCommand
 	 */
 	protected DeleteNodeProperty(action: Commands.DeleteNodePropertyCommand | Events.NodePropertyDeletedEvent): void {
-		if (this.graph.hasNode(action.elementId) === false) {
-			throw new Error("No Node with Id " + action.elementId + " exists");
-		}
 		this.graph.deleteProperty(action.elementId, action.propertyName);
 	}
 
@@ -410,9 +359,6 @@ export class CQRSGraph {
 	 * @param command SetConnectorPropertyCommand
 	 */
 	protected SetConnectorProperty(action: Commands.SetConnectorPropertyCommand | Events.ConnectorPropertySetEvent): void {
-		if (this.graph.hasConnector(action.elementId)) {
-			throw new Error("No Connector with Id " + action.elementId + " exists");
-		}
 		this.graph.setProperty(action.elementId, action.propertyName, action.propertyValue);
 	}
 
@@ -422,9 +368,6 @@ export class CQRSGraph {
 	 * @param command SetEdgePropertyCommand
 	 */
 	protected SetEdgeProperty(action: Commands.SetEdgePropertyCommand | Events.EdgePropertySetEvent): void {
-		if (this.graph.hasEdge(action.elementId)) {
-			throw new Error("No Edge with Id " + action.elementId + " exists");
-		}
 		this.graph.setProperty(action.elementId, action.propertyName, action.propertyValue);
 	}
 
@@ -434,9 +377,6 @@ export class CQRSGraph {
 	 * @param command SetModelPropertyCommand
 	 */
 	protected SetModelProperty(action: Commands.SetModelPropertyCommand | Events.ModelPropertySetEvent): void {
-		if (this.graph.hasModel(action.elementId)) {
-			throw new Error("No Model with Id " + action.elementId + " exists");
-		}
 		this.graph.setProperty(action.elementId, action.propertyName, action.propertyValue);
 	}
 
@@ -446,9 +386,6 @@ export class CQRSGraph {
 	 * @param command SetNodePropertyCommand
 	 */
 	protected SetNodeProperty(action: Commands.SetNodePropertyCommand | Events.NodePropertySetEvent): void {
-		if (this.graph.hasNode(action.elementId)) {
-			throw new Error("No Node with Id " + action.elementId + " exists");
-		}
 		this.graph.setProperty(action.elementId, action.propertyName, action.propertyValue);
 	}
 }
