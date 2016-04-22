@@ -8,7 +8,7 @@
     "lint": "tslint -c ./src/tslint.json --force -e ./src/{typings,test}/** ./src/**/*.ts",
 		"build": "cd ./src/ && typings install && tsc",
 		"test": "cd dist && mocha --require source-map-support/register",
-		"test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- ./dist/test/ -R spec && remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage.json && istanbul report lcov",
+		"test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --include-all-sources --report lcovonly -- ./dist/test/ -R spec && remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage.json && istanbul report lcov",
 		"dev": "npm install && npm run lint && npm run build",
 		"codeclimate": "codeclimate-test-reporter < ./coverage/lcov.info",
 		"typedoc": "rm -rf ./src/typings/ && typedoc --out ./doc/ --module commonjs --exclude **/test/**/*.ts --readme ./readme.md --target ES5 --mode file ./src/"
