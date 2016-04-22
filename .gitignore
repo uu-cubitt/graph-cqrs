@@ -38,3 +38,6 @@ dist
 
 # Typescript typings
 src/typings
+
+# Typedoc default documentation folder
+doc

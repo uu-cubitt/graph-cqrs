@@ -47,3 +47,6 @@ dist/**/*.map
 
 # Codeclimate configuration
 .codeclimate.yml
+
+# Typedoc default documentation folder
+doc

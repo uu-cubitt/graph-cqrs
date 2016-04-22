@@ -69,4 +69,3 @@ npm run typedoc
 ## Changelog
 
 [Changelog](changelog.md)
-
