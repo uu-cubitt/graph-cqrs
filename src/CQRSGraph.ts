@@ -97,65 +97,78 @@ export class CQRSGraph {
 	 *
 	 * @param command The command to execute
 	 */
-	public ApplyCommand(command: Commands.Command): void {
+	public ApplyCommand(command: Commands.Command): Events.Event {
 		try {
 			switch (command.type) {
 				case Commands.CommandType.AddConnector:
 					this.AddConnector(<Commands.AddConnectorCommand> command);
-					break;
+					this.version++;
+					return new Events.ConnectorAddedEvent(<Commands.AddConnectorCommand> command, this.version);
 				case Commands.CommandType.AddEdge:
 					this.AddEdge(<Commands.AddEdgeCommand> command);
-					break;
+					this.version++;
+					return new Events.EdgeAddedEvent(<Commands.AddEdgeCommand> command, this.version);
 				case Commands.CommandType.AddModel:
 					this.AddModel(<Commands.AddModelCommand> command);
-					break;
+					this.version++;
+					return new Events.ModelAddedEvent(<Commands.AddModelCommand> command, this.version);
 				case Commands.CommandType.AddNode:
 					this.AddNode(<Commands.AddNodeCommand> command);
-					break;
+					this.version++;
+					return new Events.NodeAddedEvent(<Commands.AddNodeCommand> command, this.version);
 				case Commands.CommandType.DeleteConnector:
 					this.DeleteConnector(<Commands.DeleteConnectorCommand> command);
-					break;
+					this.version++;
+					return new Events.ConnectorDeletedEvent(<Commands.DeleteConnectorCommand> command, this.version);
 				case Commands.CommandType.DeleteEdge:
 					this.DeleteEdge(<Commands.DeleteEdgeCommand> command);
-					break;
+					this.version++;
+					return new Events.EdgeDeletedEvent(<Commands.DeleteEdgeCommand> command, this.version);
 				case Commands.CommandType.DeleteModel:
 					this.DeleteModel(<Commands.DeleteModelCommand> command);
-					break;
+					this.version++;
+					return new Events.ModelDeletedEvent(<Commands.DeleteModelCommand> command, this.version);
 				case Commands.CommandType.DeleteNode:
 					this.DeleteNode(<Commands.DeleteNodeCommand> command);
-					break;
+					this.version++;
+					return new Events.NodeDeletedEvent(<Commands.DeleteNodeCommand> command, this.version);
 				case Commands.CommandType.DeleteConnectorProperty:
 					this.DeleteConnectorProperty(<Commands.DeleteConnectorPropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.ConnectorPropertyDeletedEvent(<Commands.DeleteConnectorPropertyCommand> command, this.version);
 				case Commands.CommandType.DeleteEdgeProperty:
 					this.DeleteEdgeProperty(<Commands.DeleteEdgePropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.EdgePropertyDeletedEvent(<Commands.DeleteEdgePropertyCommand> command, this.version);
 				case Commands.CommandType.DeleteModelProperty:
 					this.DeleteModelProperty(<Commands.DeleteModelPropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.ModelPropertyDeletedEvent(<Commands.DeleteModelPropertyCommand> command, this.version);
 				case Commands.CommandType.DeleteNodeProperty:
 					this.DeleteNodeProperty(<Commands.DeleteNodePropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.NodePropertyDeletedEvent(<Commands.DeleteNodePropertyCommand> command, this.version);
 				case Commands.CommandType.SetConnectorProperty:
 					this.SetConnectorProperty(<Commands.SetConnectorPropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.ConnectorPropertySetEvent(<Commands.SetConnectorPropertyCommand> command, this.version);
 				case Commands.CommandType.SetEdgeProperty:
 					this.SetEdgeProperty(<Commands.SetEdgePropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.EdgePropertySetEvent(<Commands.SetEdgePropertyCommand> command, this.version);
 				case Commands.CommandType.SetModelProperty:
 					this.SetModelProperty(<Commands.SetModelPropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.ModelPropertySetEvent(<Commands.SetModelPropertyCommand> command, this.version);
 				case Commands.CommandType.SetNodeProperty:
 					this.SetNodeProperty(<Commands.SetNodePropertyCommand> command);
-					break;
+					this.version++;
+					return new Events.NodePropertySetEvent(<Commands.SetNodePropertyCommand> command, this.version);
 				default:
-					throw new Error("Invalid state");
+					throw new Error("CQRS ERROR: Command of type: " + command.type + " cannot be applied.");
 			}
-			this.version++;
 		} catch (error) {
-			if (this.rollbackGraph !== null) {
 			this.Rollback();
-		}
 			throw error;
 		}
 	}
@@ -217,13 +230,11 @@ export class CQRSGraph {
 					this.DeleteNodeProperty(<Events.NodePropertyDeletedEvent> event);
 					break;
 				default:
-					throw new Error("Unknown EventType");
+					throw new Error("CQRS ERROR: Event of type: " + event.type + " cannot be applied.");
 			}
 			this.version++;
 		} catch (error)	{
-			if (this.rollbackGraph !== null) {
 			this.Rollback();
-		}
 			throw error;
 		}
 	}
