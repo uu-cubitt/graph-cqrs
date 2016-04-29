@@ -10,5 +10,9 @@
 
 ## 0.6.2
 
-- Fixed bug with transaction rollback
-- Introduced Changelog
+- Fixed bug with transaction rollback.
+- Introduced Changelog.
+
+## 0.7.0
+
+- ApplyCommand now returns an event to pass along to the EventStore.
