@@ -34,7 +34,6 @@
 		"member-ordering": [
 			false
 		],
-		"no-angle-bracket-type-assertion": false,
 		"no-any": false,
 		"no-arg": false,
 		"no-bitwise": true,
