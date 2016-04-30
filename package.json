@@ -1,6 +1,6 @@
 {
 	"name": "cubitt-graph-cqrs",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"description": "CQRS interface to cubitt-graph",
 	"main": "dist/cubitt-graph-cqrs.js",
 	"typings": "dist/cubitt-graph-cqrs",

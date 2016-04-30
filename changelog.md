@@ -16,3 +16,7 @@
 ## 0.7.0
 
 - ApplyCommand now returns an event to pass along to the EventStore.
+
+## 0.8.0
+
+- Uses the new 1.0.0 versions of events,commands and common, however because of low code coverage, we'll release this one as 0.8.0
