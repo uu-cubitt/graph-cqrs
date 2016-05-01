@@ -20,3 +20,6 @@
 ## 0.8.0
 
 - Uses the new 1.0.0 versions of events,commands and common, however because of low code coverage, we'll release this one as 0.8.0
+
+## 0.8.1
+- Fixed bug with regards to starting transaction from empty graph

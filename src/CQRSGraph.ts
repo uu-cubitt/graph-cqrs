@@ -42,6 +42,8 @@ export class CQRSGraph {
 			this.graph = graph;
 			this.version = version;
 		}
+		this.rollbackGraph = null;
+		this.rollbackVersion = null;
 	}
 
 	/**
