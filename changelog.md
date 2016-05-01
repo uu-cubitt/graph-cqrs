@@ -23,3 +23,6 @@
 
 ## 0.8.1
 - Fixed bug with regards to starting transaction from empty graph
+
+## 0.9.0
+- Removed automatic rollback in ApplyCommand and ApplyEvent
