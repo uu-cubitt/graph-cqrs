@@ -52,28 +52,5 @@ describe("Empty Graph", () => {
 			}
 			done();
 		});
-
-		it("should correctly start a transaction after a rollbacked transaction", (done) => {
-			try {
-				subject.BeginTransaction();
-				//Valid command
-				let com: Commands.Command = new Commands.AddModelCommand(
-					Common.Guid.newGuid(),
-					Common.Guid.newGuid(),
-					Common.Guid.newGuid(),
-					Common.Guid.newGuid(),
-					"TEST_MODEL",
-					{}
-				);
-				subject.ApplyCommand(com);
-				subject.CommitTransaction();
-			} catch(error) {
-				subject.Rollback();
-			}
-			subject.BeginTransaction();
-			subject.ApplyCommand(com);
-			subject.CommitTransaction();
-			done();
-		});
 	});
 });
