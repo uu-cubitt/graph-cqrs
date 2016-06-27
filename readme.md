@@ -34,7 +34,7 @@ let myCQRSGraph = new CQRSGraph();
 ## Documentation
 
 * [Code documentation](https://uu-cubitt.github.io/graph-cqrs/)
-* [Design documentation](https://uu-cubitt.github.io/graph-cqrs/design/)
+* [General documentation](https://cubitt.readme.io/)
 
 ## For developers
 

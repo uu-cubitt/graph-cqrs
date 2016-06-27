@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0
+
+- Added typedoc dependency
+- Updated documentation links
+
 ## 0.6.0
 
 - General CQRS wrapper for graph implemented.
